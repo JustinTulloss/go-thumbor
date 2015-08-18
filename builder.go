@@ -1,10 +1,10 @@
 package thumbor
 
 type Builder struct {
-	Server   string
-	Secret   string
-	Image    string
-	Commands AppliedCommands
+	Server    string
+	Secret    string
+	ImagePath string
+	Commands  AppliedCommands
 }
 
 type AppliedCommands struct {

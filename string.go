@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"net/url"
 	"strings"
 )
 
@@ -49,10 +50,14 @@ func (b *Builder) String() string {
 	if path = b.Commands.String(); len(path) > 0 {
 		path += "/"
 	}
-	path += b.Image
+	path += b.ImagePath
 	signature := "unsafe"
 	if b.Secret != "" {
 		signature = generateSignature(path, b.Secret)
 	}
 	return fmt.Sprintf("%s/%s/%s", b.Server, signature, path)
+}
+
+func (b *Builder) URL() (*url.URL, error) {
+	return url.Parse(b.String())
 }

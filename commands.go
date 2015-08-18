@@ -5,8 +5,8 @@ import (
 	"strconv"
 )
 
-func (b *Builder) Url(img string) *Builder {
-	b.Image = img
+func (b *Builder) Image(img string) *Builder {
+	b.ImagePath = img
 	return b
 }
 
