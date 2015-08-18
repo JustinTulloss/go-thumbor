@@ -1,6 +1,9 @@
 package thumbor
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
 	"fmt"
 	"strings"
 )
@@ -35,14 +38,21 @@ func (c *AppliedCommands) String() string {
 	return strings.Join(commands, "/")
 }
 
+func generateSignature(args, secret string) string {
+	mac := hmac.New(sha256.New, []byte(secret))
+	mac.Write([]byte(args))
+	return base64.URLEncoding.EncodeToString(mac.Sum(nil))
+}
+
 func (b *Builder) String() string {
-	url := fmt.Sprintf("%s/%s/", b.Server, b.Secret)
-
-	if commands := b.Commands.String(); len(commands) != 0 {
-		url += commands + "/"
+	var path string
+	if path = b.Commands.String(); len(path) > 0 {
+		path += "/"
 	}
-
-	url += b.Image
-
-	return url
+	path += b.Image
+	signature := "unsafe"
+	if b.Secret != "" {
+		signature = generateSignature(path, b.Secret)
+	}
+	return fmt.Sprintf("%s/%s/%s", b.Server, signature, path)
 }

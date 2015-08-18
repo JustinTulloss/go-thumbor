@@ -13,7 +13,7 @@ func ExampleNoSecret() {
 func ExampleWithSecret() {
 	b := NewBuilder("https://images.foo.bar", "abc123")
 	fmt.Println(b.Url("foo.png"))
-	// Output: https://images.foo.bar/abc123/foo.png
+	// Output: https://images.foo.bar/SV5Hoh-Z7Gz7CpiT1bjuZuByZTLqlc5FfpxYTUxZxHU=/foo.png
 }
 
 func ExampleTrim() {

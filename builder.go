@@ -19,10 +19,6 @@ type AppliedCommands struct {
 }
 
 func NewBuilder(server, secret string) Builder {
-	if len(secret) == 0 {
-		secret = "unsafe"
-	}
-
 	return Builder{
 		Server: server,
 		Secret: secret,
