@@ -11,9 +11,11 @@ func ExampleNoSecret() {
 }
 
 func ExampleWithSecret() {
-	b := NewBuilder("https://images.foo.bar", "abc123")
-	fmt.Println(b.Image("foo.png"))
-	// Output: https://images.foo.bar/SV5Hoh-Z7Gz7CpiT1bjuZuByZTLqlc5FfpxYTUxZxHU=/foo.png
+	// Params borrowed from libthumbor tests
+	// https://github.com/thumbor/libthumbor/blob/8001d6c/tests/test_cryptourl.py
+	b := NewBuilder("https://images.foo.bar", "my-security-key")
+	fmt.Println(b.Image("my.server.com/some/path/to/image.jpg").Resize(300, 200))
+	// Output: https://images.foo.bar/8ammJH8D-7tXy6kU3lTvoXlhu4o=/300x200/my.server.com/some/path/to/image.jpg
 }
 
 func ExampleTrim() {

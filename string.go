@@ -2,7 +2,7 @@ package thumbor
 
 import (
 	"crypto/hmac"
-	"crypto/sha256"
+	"crypto/sha1"
 	"encoding/base64"
 	"fmt"
 	"net/url"
@@ -40,7 +40,7 @@ func (c *AppliedCommands) String() string {
 }
 
 func generateSignature(args, secret string) string {
-	mac := hmac.New(sha256.New, []byte(secret))
+	mac := hmac.New(sha1.New, []byte(secret))
 	mac.Write([]byte(args))
 	return base64.URLEncoding.EncodeToString(mac.Sum(nil))
 }
@@ -58,6 +58,10 @@ func (b *Builder) String() string {
 	return fmt.Sprintf("%s/%s/%s", b.Server, signature, path)
 }
 
-func (b *Builder) URL() (*url.URL, error) {
-	return url.Parse(b.String())
+func (b *Builder) URL() *url.URL {
+	u, err := url.Parse(b.String())
+	if err != nil {
+		panic("Could not parse url: " + err.Error())
+	}
+	return u
 }
